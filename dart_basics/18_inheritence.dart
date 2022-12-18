@@ -1,8 +1,44 @@
-import 'dart:math';
-
 void main() {
   Student student1 = Student();
-  student1.setSemester = 2;
+  student1
+    ..setSemester = 2
+    ..setAge = 21
+    ..setName = "Dick";
+
+  Student2 student2 = Student2();
+  student2
+    ..setSemester = 1
+    ..setAge = 22
+    ..setName = "Dicky";
+
+  Person person1 = Person();
+  person1
+    ..setName = "Harry"
+    ..setAge = 46;
+
+  int semester = student1.getSemester;
+  print(semester);
+
+  student1
+    ..jump()
+    ..run();
+
+  student2
+    ..jump()
+    ..study()
+    ..run();
+}
+
+mixin Learner on Student {
+  void study() {
+    print("${this.getName} is studying...");
+  }
+}
+
+mixin Jumper {
+  void jump() {
+    print('I can jump!');
+  }
 }
 
 class Person {
@@ -27,7 +63,7 @@ class Person {
   }
 }
 
-class Student extends Person {
+class Student extends Person with Jumper {
   late int _semester;
 
   int get getSemester => this._semester;
@@ -42,3 +78,5 @@ class Student extends Person {
     print("$_name is partying!");
   }
 }
+
+class Student2 extends Student with Learner {}

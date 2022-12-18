@@ -3,27 +3,24 @@ import 'dart:math';
 
 // Guess the number between 1 and 10
 void main() {
-  String? userInput;
-  int? inputInteger;
   int guessCount = 0;
-  bool invalidInput;
   bool wrongAnswer;
-
   final int randomInteger = getRandomNumber();
+
   print('Guess my number between 1 and 10: ');
   do {
-    userInput = stdin.readLineSync();
-    inputInteger = int.tryParse(userInput!);
-    invalidInput = !validInput(inputInteger);
-    invalidInput
-        ? print("Input is invalid...")
-        : printHint(randomInteger, inputInteger!);
+    final String? userInput = stdin.readLineSync();
+    final int? inputInteger = int.tryParse(userInput!);
+    final bool isValidInput = validInput(inputInteger);
+    isValidInput
+        ? printHint(randomInteger, inputInteger!)
+        : print("Try entering a value between 1 and 10:");
 
-    wrongAnswer = invalidInput || (inputInteger != randomInteger);
+    wrongAnswer = !isValidInput || (inputInteger != randomInteger);
     guessCount++;
   } while (wrongAnswer);
 
-  String es = guessCount == 1 ? "" : "es";
+  final String es = guessCount == 1 ? "" : "es";
   print("You got it in $guessCount guess$es");
 }
 

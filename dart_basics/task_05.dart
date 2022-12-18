@@ -1,29 +1,32 @@
 import 'dart:io';
 
 const Map<String, String> commands = {
-  "a": "Add a contact",
-  "r": "Remove a contact",
-  "v": "View all contacts",
+  "a": "Add a customer",
+  "r": "Remove a customer",
+  "v": "View all customers",
   "x": "Exit"
 };
 
-// Add, delete, view contacts
+// Add, delete, view customers
 void main() {
   String? command;
-  List<Contact> contacts = [];
+  List<customer> customers = [];
 
-  print("-= Welcome to your contact list =-");
+  print("* * * Welcome to your customer database * * *");
   do {
+    customers.length == 0
+        ? print("Your customer list is empty.")
+        : print("Your have ${customers.length} customer(s).");
     command = getCommand();
     switch (command) {
       case "a":
-        contacts = addContact(contacts);
+        customers = addcustomer(customers);
         break;
       case "r":
-        contacts = removeContact(contacts);
+        customers = removecustomer(customers);
         break;
       case "v":
-        viewContacts(contacts);
+        viewcustomers(customers);
         break;
     }
     print("\n");
@@ -31,55 +34,56 @@ void main() {
   print("Goodbye...");
 }
 
-List<Contact> addContact(List<Contact> contacts) {
-  print("\n-= Add new contact =-");
+List<customer> addcustomer(List<customer> customers) {
+  print("\n-= Add new customer =-");
   stdout.write("Name: ");
-  String contactName = stdin.readLineSync() ?? "unknown name";
-  Contact newContact = Contact(name: contactName);
+  String customerName = stdin.readLineSync() ?? "unknown name";
+  customer newcustomer = customer(name: customerName);
 
   stdout.write("Age: ");
-  String contactAge = stdin.readLineSync() ?? "unknown age";
-  newContact.setAge = contactAge;
+  String customerAge = stdin.readLineSync() ?? "unknown age";
+  newcustomer.setAge = customerAge;
 
-  contacts.add(newContact);
-  return contacts;
+  customers.add(newcustomer);
+  return customers;
 }
 
-List<Contact> removeContact(List<Contact> contacts) {
+List<customer> removecustomer(List<customer> customers) {
   String? userInput;
-  int? contactIndex;
+  int? customerIndex;
 
   do {
-    viewContacts(contacts);
-    stdout.write("Enter a number to remove the contact or 'x' to exit: ");
+    viewcustomers(customers);
+    stdout.write("Enter a number to remove the customer or 'x' to exit: ");
     userInput = stdin.readLineSync();
-    contactIndex = int.tryParse(userInput!);
-    contacts = removeContactByIndex(contactIndex, contacts);
-    if (contacts.length == 0) print("No contacts left... ");
-  } while (userInput != "x" && contacts.length > 0);
-  return contacts;
+    customerIndex = int.tryParse(userInput!);
+    customers = removecustomerByIndex(customerIndex, customers);
+    if (customers.length == 0) print("No customers left... ");
+  } while (userInput != "x" && customers.length > 0);
+  return customers;
 }
 
-List<Contact> removeContactByIndex(int? contactIndex, List<Contact> contacts) {
-  if (contactIndex == null) return contacts;
-  if (0 <= contactIndex && contactIndex < contacts.length)
-    contacts.removeAt(contactIndex);
-  return contacts;
+List<customer> removecustomerByIndex(
+    int? customerIndex, List<customer> customers) {
+  if (customerIndex == null) return customers;
+  if (0 <= customerIndex && customerIndex < customers.length)
+    customers.removeAt(customerIndex);
+  return customers;
 }
 
-void viewContacts(List<Contact> contacts) {
-  print("\n-= Your contacts =-");
-  contacts.asMap().forEach((int index, Contact contact) {
-    print("$index: ${contact.details}");
+void viewcustomers(List<customer> customers) {
+  print("\n-= Your customers =-");
+  customers.asMap().forEach((int index, customer customer) {
+    print("$index: ${customer.details}");
   });
 }
 
-class Contact {
+class customer {
   String name;
   String? age = "unknown";
 
   // Constructor
-  Contact({required this.name});
+  customer({required this.name});
 
   // Setters
   void set setAge(String age) {

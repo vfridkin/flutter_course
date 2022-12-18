@@ -2,26 +2,23 @@ import 'dart:io';
 
 // Calculate factorial from user input
 void main() {
-  String? userInput;
   int? inputInteger;
-  bool invalidInput;
-  int factorial;
+  bool isValidInput;
 
   do {
     print("Enter an integer >= 0:");
-    userInput = stdin.readLineSync();
+    final String? userInput = stdin.readLineSync();
     inputInteger = int.tryParse(userInput!);
-    invalidInput = !validInput(inputInteger);
-  } while (invalidInput);
+    isValidInput = validInput(inputInteger);
+  } while (!isValidInput);
 
-  factorial = calculateFactorial(inputInteger!);
+  final int factorial = calculateFactorial(inputInteger!);
   print("$inputInteger! = $factorial");
 }
 
 bool validInput(int? x) {
   bool isInteger = x != null;
-  bool isNonNegative = isInteger && x >= 0;
-  return isInteger && isNonNegative;
+  return isInteger && x >= 0;
 }
 
 int calculateFactorial(int x) {
