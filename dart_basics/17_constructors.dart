@@ -12,12 +12,12 @@ void main() {
 }
 
 class Car {
-//! constructor
-  Car({required this.colour, required this.engine});
-
 //! attributes
   final String colour;
   final String engine;
+
+//! constructor
+  Car({required this.colour, required this.engine});
 
 // //! setter - set attributes
 //   set setColour(String colour) {

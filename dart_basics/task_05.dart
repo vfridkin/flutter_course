@@ -9,36 +9,40 @@ const Map<String, String> commands = {
 
 // Add, delete, view customers
 void main() {
-  String? command;
-  List<customer> customers = [];
+  List<Customer> customers = [];
 
   print("* * * Welcome to your customer database * * *");
   do {
     customers.length == 0
-        ? print("Your customer list is empty.")
-        : print("Your have ${customers.length} customer(s).");
-    command = getCommand();
-    switch (command) {
-      case "a":
-        customers = addcustomer(customers);
-        break;
-      case "r":
-        customers = removecustomer(customers);
-        break;
-      case "v":
-        viewcustomers(customers);
-        break;
-    }
-    print("\n");
-  } while (command != "x");
+        ? print("Your customer list is empty.\n")
+        : print("Your have ${customers.length} customer(s).\n");
+    final String? command = getCommand();
+    if (command == "x") break;
+    customers = doCommandOnCustomers(command, customers);
+  } while (true);
   print("Goodbye...");
 }
 
-List<customer> addcustomer(List<customer> customers) {
+List<Customer> doCommandOnCustomers(command, customers) {
+  switch (command) {
+    case "a":
+      customers = addCustomer(customers);
+      break;
+    case "r":
+      customers = removeCustomer(customers);
+      break;
+    case "v":
+      viewCustomers(customers);
+      break;
+  }
+  return customers;
+}
+
+List<Customer> addCustomer(List<Customer> customers) {
   print("\n-= Add new customer =-");
   stdout.write("Name: ");
   String customerName = stdin.readLineSync() ?? "unknown name";
-  customer newcustomer = customer(name: customerName);
+  Customer newcustomer = Customer(name: customerName);
 
   stdout.write("Age: ");
   String customerAge = stdin.readLineSync() ?? "unknown age";
@@ -48,42 +52,42 @@ List<customer> addcustomer(List<customer> customers) {
   return customers;
 }
 
-List<customer> removecustomer(List<customer> customers) {
+List<Customer> removeCustomer(List<Customer> customers) {
   String? userInput;
   int? customerIndex;
 
   do {
-    viewcustomers(customers);
+    viewCustomers(customers);
     stdout.write("Enter a number to remove the customer or 'x' to exit: ");
     userInput = stdin.readLineSync();
     customerIndex = int.tryParse(userInput!);
-    customers = removecustomerByIndex(customerIndex, customers);
+    customers = removeCustomerByIndex(customerIndex, customers);
     if (customers.length == 0) print("No customers left... ");
   } while (userInput != "x" && customers.length > 0);
   return customers;
 }
 
-List<customer> removecustomerByIndex(
-    int? customerIndex, List<customer> customers) {
+List<Customer> removeCustomerByIndex(
+    int? customerIndex, List<Customer> customers) {
   if (customerIndex == null) return customers;
   if (0 <= customerIndex && customerIndex < customers.length)
     customers.removeAt(customerIndex);
   return customers;
 }
 
-void viewcustomers(List<customer> customers) {
+void viewCustomers(List<Customer> customers) {
   print("\n-= Your customers =-");
-  customers.asMap().forEach((int index, customer customer) {
+  customers.asMap().forEach((int index, Customer customer) {
     print("$index: ${customer.details}");
   });
 }
 
-class customer {
+class Customer {
   String name;
   String? age = "unknown";
 
   // Constructor
-  customer({required this.name});
+  Customer({required this.name});
 
   // Setters
   void set setAge(String age) {

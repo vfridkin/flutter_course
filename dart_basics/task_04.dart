@@ -1,24 +1,28 @@
 import 'dart:io';
 import 'dart:math';
 
-// Guess the number between 1 and 10
+// Guess the number between 1 and 10 with hints
 void main() {
   int guessCount = 0;
-  bool wrongAnswer;
-  final int randomInteger = getRandomNumber();
+  bool isCorrect;
+  final int correctNumber = getRandomNumber();
 
   print('Guess my number between 1 and 10: ');
   do {
     final String? userInput = stdin.readLineSync();
-    final int? inputInteger = int.tryParse(userInput!);
-    final bool isValidInput = validInput(inputInteger);
-    isValidInput
-        ? printHint(randomInteger, inputInteger!)
-        : print("Try entering a value between 1 and 10:");
-
-    wrongAnswer = !isValidInput || (inputInteger != randomInteger);
+    final int? userInteger = int.tryParse(userInput!);
+    final bool isValid = validInput(userInteger);
+    if (!isValid) {
+      print("Try entering a value between 1 and 10:");
+      isCorrect = false;
+      continue;
+    }
+    isCorrect =
+        checkIfCorrect(inputNumber: userInteger!, correctNumber: correctNumber);
+    if (!isCorrect)
+      printHint(inputNumber: userInteger, correctNumber: correctNumber);
     guessCount++;
-  } while (wrongAnswer);
+  } while (!isCorrect);
 
   final String es = guessCount == 1 ? "" : "es";
   print("You got it in $guessCount guess$es");
@@ -36,7 +40,12 @@ bool validInput(int? x) {
   return isInteger && 0 < x && x <= 10;
 }
 
-void printHint(int randomInteger, int inputInteger) {
-  if (inputInteger > randomInteger) print("Too high, try again..");
-  if (inputInteger < randomInteger) print("Too low, try again..");
+void printHint({required int inputNumber, required int correctNumber}) {
+  if (inputNumber > correctNumber) print("Too high, try again..");
+  if (inputNumber < correctNumber) print("Too low, try again..");
+}
+
+bool checkIfCorrect({required int inputNumber, required int correctNumber}) {
+  final bool isCorrect = (inputNumber == correctNumber);
+  return isCorrect;
 }
