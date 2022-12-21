@@ -17,10 +17,11 @@ const words = [
 
 // Hang man
 void main() {
-  int lives = 2;
+  int lives = 10;
   bool isPlaying = true;
   final String correctWord = getRandomWord();
-  String guessWord = "_" * correctWord.length;
+  List<String> guessWordList = List.filled(correctWord.length, "_");
+  String guessWord = guessWordList.join();
 
   print("* * * Let's play hangman * * *");
 
@@ -29,38 +30,38 @@ void main() {
 
   // Set up stream and listener to process user guesses
   Stream letterStream = letterGuesser.getStream.asBroadcastStream();
-  StreamSubscription thisGame = letterStream.listen((letter) {
-    print(correctWord);
-    final List<String> guessWordList = guessWord.split('');
-    List<int> indices = [];
-    correctWord.split('').asMap().forEach((index, value) {
-      if (value == letter) guessWordList[index] = letter;
-    });
-    final bool isLetterInWord = correctWord.contains(letter);
-    isLetterInWord ? guessWord = guessWordList.join() : lives--;
-    print(guessWord);
-    print("You have $lives lives left.");
+  letterStream.listen((letter) {
+    // Check if correct guess
+    final bool isCorrectGuess = correctWord.contains(letter);
+
+    // Update guess word list with letter
+    if (isCorrectGuess) {
+      correctWord.split('').asMap().forEach((index, value) {
+        if (value == letter) guessWordList[index] = letter;
+      });
+      guessWord = guessWordList.join();
+      print(guessWord);
+    }
+
+    // Reduce lives
+    if (!isCorrectGuess) {
+      lives--;
+      print("Wrong guess - you have $lives lives left.");
+    }
+
+    // Check if won
     final bool hasWon = guessWord == correctWord;
+
+    // Check if still playing
     isPlaying = lives > 0 && !hasWon;
     if (!isPlaying) {
-      hasWon ? print("Congratulations, you won! 😊") : print("You lose 🥲");
+      hasWon ? print("Congratulations, you won! 😊") : print("You lost 🥲");
       print("Game Over");
       exit(0);
     }
-  }, onDone: () {
-    isPlaying = false;
-    print("Game Over");
-    exit(0);
   });
 
   letterGuesser.getUserInput();
-  if (!isPlaying) {
-    thisGame.cancel();
-  }
-}
-
-String replaceBlankWithLetter(letter, guessWord, correctWord) {
-  return guessWord;
 }
 
 String getRandomWord() {
@@ -99,7 +100,6 @@ class LetterGuesser {
   void getUserInput() {
     do {
       final letter = getLetter();
-      final guessState = correctWord;
       _controller.sink.add(letter);
     } while (playing);
   }
