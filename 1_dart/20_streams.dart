@@ -19,6 +19,13 @@ void main() {
     }, onDone: () {
       print("Listener 2 done..");
     });
+    sub2.onDone(() {
+      print("sub2 done");
+    });
+  });
+
+  sub1.onDone(() {
+    print("sub1 done");
   });
 }
 

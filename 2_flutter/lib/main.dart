@@ -13,9 +13,9 @@ class MyApp extends StatelessWidget {
         home: Scaffold(
             backgroundColor: Colors.red[700],
             appBar: AppBar(
-              title: const Text('Flutter basics'),
+              title: const Text('Task F1'),
               centerTitle: true,
             ),
-            body: const Center(child: Text('Hello world!'))));
+            body: const Center(child: Text(''))));
   }
 }

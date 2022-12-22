@@ -26,7 +26,7 @@ void main() {
   print("* * * Let's play hangman * * *");
 
   // Set up letter guesser for user input
-  final letterGuesser = LetterGuesser(correctWord: correctWord);
+  final letterGuesser = LetterGuesser();
 
   // Set up stream and listener to process user guesses
   Stream letterStream = letterGuesser.getStream.asBroadcastStream();
@@ -87,14 +87,10 @@ String getLetter() {
 }
 
 class LetterGuesser {
-  final String correctWord;
   bool playing = true;
 
   StreamController<String> _controller = StreamController<String>(sync: true);
   Stream<String> get getStream => _controller.stream;
-
-  //* Constructor
-  LetterGuesser({required this.correctWord});
 
   //* Method
   void getUserInput() {
