@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 const String imgSource =
     'https://st.depositphotos.com/2654883/3574/v/950/depositphotos_35743665-stock-illustration-hip-hop-latter-symbol-of.jpg';
 const String category = 'Hip Hop';
-const String question = 'What was the first rap to hit the Billboard?';
-
 const List<String> questions = [
   'What was the first rap to hit the Billboard?',
   'Run-D.M.C. collaborated with rock musicians Steven Tyler and Joe Perry, of Aerosmith, on a rap remake of which of their band’s songs?',
