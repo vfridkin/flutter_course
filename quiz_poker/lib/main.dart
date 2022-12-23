@@ -34,13 +34,21 @@ class ScaffoldPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screen = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
           title: const Text('Quiz Poker'),
           centerTitle: true,
           backgroundColor: Colors.green,
         ),
-        body: const QuestionItemList());
+        body: Column(
+          children: [
+            SizedBox(
+              height: screen.height / 2,
+              child: const QuestionItemList(),
+            ),
+          ],
+        ));
   }
 }
 
