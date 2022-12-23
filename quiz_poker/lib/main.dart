@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 const String imgSource =
     'https://st.depositphotos.com/2654883/3574/v/950/depositphotos_35743665-stock-illustration-hip-hop-latter-symbol-of.jpg';
@@ -43,9 +44,12 @@ class ScaffoldPage extends StatelessWidget {
         ),
         body: Column(
           children: [
-            SizedBox(
-              height: screen.height / 2,
-              child: const QuestionItemList(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                height: screen.height / 2,
+                child: const QuestionItemList(),
+              ),
             ),
           ],
         ));
@@ -58,12 +62,12 @@ class QuestionItemList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: questions
-              .map((question) => QuestionItem(questionText: question))
-              .toList()),
-    );
+        scrollDirection: Axis.horizontal,
+        // mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
+            children: questions
+                .map((question) => QuestionItem(questionText: question))
+                .toList()));
   }
 }
 
@@ -73,16 +77,19 @@ class QuestionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.green.shade100,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListTile(
-          leading: const CircleAvatar(
-            backgroundImage: NetworkImage(imgSource),
+    return SizedBox(
+      width: 300,
+      child: Card(
+        color: Colors.green.shade100,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListTile(
+            leading: const CircleAvatar(
+              backgroundImage: NetworkImage(imgSource),
+            ),
+            title: const Text(category),
+            subtitle: Text(questionText),
           ),
-          title: const Text(category),
-          subtitle: Text(questionText),
         ),
       ),
     );
