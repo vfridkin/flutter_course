@@ -14,9 +14,7 @@ class MyApp extends StatelessWidget {
 }
 
 class ScaffoldPage extends StatelessWidget {
-  const ScaffoldPage({
-    Key? key,
-  }) : super(key: key);
+  const ScaffoldPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,34 +24,54 @@ class ScaffoldPage extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.green,
       ),
-      body: Center(
-        child: Container(
-          height: 200,
-          width: 200,
-          decoration: BoxDecoration(
-            color: Colors.green,
-            borderRadius: BorderRadius.circular(10),
+      body: const QuestionItem(),
+      floatingActionButton: const Fab(),
+    );
+  }
+}
+
+class QuestionItem extends StatelessWidget {
+  const QuestionItem({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Card(
+          color: Colors.green.shade100,
+          child: const ListTile(
+            leading: Icon(
+              Icons.help,
+              size: 40,
+              color: Colors.green,
+            ),
+            title: Text('Category: Flutter self awareness'),
+            subtitle: Text('What is this listTile doing here all alone?'),
           ),
-          child: const Center(
-              child: Text(
-            'Hello!',
-            style: TextStyle(fontSize: 40, color: Colors.white),
-          )),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (() {
-          const snackBar = SnackBar(
-            content: Text('Merry Christmas!'),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.red,
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }),
-        backgroundColor: Colors.green,
-        child: const Icon(
-          Icons.horizontal_split,
-        ),
+      ],
+    );
+  }
+}
+
+class Fab extends StatelessWidget {
+  const Fab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: (() {
+        const snackBar = SnackBar(
+          content: Text('Merry Christmas!'),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.red,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }),
+      backgroundColor: Colors.green,
+      child: const Icon(
+        Icons.horizontal_split,
       ),
     );
   }

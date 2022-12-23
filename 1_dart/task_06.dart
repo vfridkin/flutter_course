@@ -55,6 +55,7 @@ void main() {
     if (!isPlaying) {
       hasWon ? print("Congratulations, you won! 😊") : print("You lost 🥲");
       print("Game Over");
+      letterGuesser.dispose();
       exit(0);
     }
   });
@@ -94,5 +95,9 @@ class LetterGuesser {
       final letter = getLetter();
       _controller.sink.add(letter);
     } while (true);
+  }
+
+  void dispose() {
+    _controller.close();
   }
 }
