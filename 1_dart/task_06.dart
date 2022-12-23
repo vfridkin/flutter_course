@@ -14,11 +14,11 @@ const words = [
   "trace",
   "mask"
 ];
+final RegExp alphaCheck = RegExp(r'^[a-z]$');
 
 // Hang man
 void main() {
   int lives = 10;
-  bool isPlaying = true;
   final String correctWord = getRandomWord();
   List<String> guessWordList = List.filled(correctWord.length, "_");
   String guessWord = guessWordList.join();
@@ -34,17 +34,15 @@ void main() {
     // Check if correct guess
     final bool isCorrectGuess = correctWord.contains(letter);
 
-    // Update guess word list with letter
     if (isCorrectGuess) {
+      // Update guess word list with letter
       correctWord.split('').asMap().forEach((index, value) {
         if (value == letter) guessWordList[index] = letter;
       });
       guessWord = guessWordList.join();
       print(guessWord);
-    }
-
-    // Reduce lives
-    if (!isCorrectGuess) {
+    } else {
+      // Reduce lives
       lives--;
       print("Wrong guess - you have $lives lives left.");
     }
@@ -53,7 +51,7 @@ void main() {
     final bool hasWon = guessWord == correctWord;
 
     // Check if still playing
-    isPlaying = lives > 0 && !hasWon;
+    final isPlaying = lives > 0 && !hasWon;
     if (!isPlaying) {
       hasWon ? print("Congratulations, you won! 😊") : print("You lost 🥲");
       print("Game Over");
@@ -79,7 +77,7 @@ String getLetter() {
     stdout.write("Enter a letter: ");
     userInput = stdin.readLineSync() ?? "";
     userInput = userInput.toLowerCase();
-    validLetter = RegExp(r'^[a-z]$').hasMatch(userInput);
+    validLetter = alphaCheck.hasMatch(userInput);
     if (!validLetter) print("Please pick a letter from a to z.");
   } while (!validLetter);
 
@@ -87,8 +85,6 @@ String getLetter() {
 }
 
 class LetterGuesser {
-  bool playing = true;
-
   StreamController<String> _controller = StreamController<String>(sync: true);
   Stream<String> get getStream => _controller.stream;
 
@@ -97,6 +93,6 @@ class LetterGuesser {
     do {
       final letter = getLetter();
       _controller.sink.add(letter);
-    } while (playing);
+    } while (true);
   }
 }
