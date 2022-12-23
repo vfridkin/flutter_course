@@ -35,14 +35,12 @@ class ScaffoldPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Quiz Poker'),
-        centerTitle: true,
-        backgroundColor: Colors.green,
-      ),
-      body: const QuestionItemList(),
-      floatingActionButton: const Fab(),
-    );
+        appBar: AppBar(
+          title: const Text('Quiz Poker'),
+          centerTitle: true,
+          backgroundColor: Colors.green,
+        ),
+        body: const QuestionItemList());
   }
 }
 
@@ -78,28 +76,6 @@ class QuestionItem extends StatelessWidget {
           title: const Text(category),
           subtitle: Text(questionText),
         ),
-      ),
-    );
-  }
-}
-
-class Fab extends StatelessWidget {
-  const Fab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: (() {
-        const snackBar = SnackBar(
-          content: Text('Merry Christmas!'),
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.red,
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }),
-      backgroundColor: Colors.green,
-      child: const Icon(
-        Icons.horizontal_split,
       ),
     );
   }
