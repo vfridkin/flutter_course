@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 const String imgSource =
     'https://st.depositphotos.com/2654883/3574/v/950/depositphotos_35743665-stock-illustration-hip-hop-latter-symbol-of.jpg';
@@ -35,7 +34,6 @@ class ScaffoldPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screen = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
           title: const Text('Quiz Poker'),
@@ -43,14 +41,9 @@ class ScaffoldPage extends StatelessWidget {
           backgroundColor: Colors.green,
         ),
         body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: screen.height / 2,
-                child: const QuestionItemList(),
-              ),
-            ),
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          children: const [
+            QuestionItemList(),
           ],
         ));
   }
@@ -61,13 +54,20 @@ class QuestionItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        // mainAxisAlignment: MainAxisAlignment.center,
-        child: Row(
-            children: questions
-                .map((question) => QuestionItem(questionText: question))
-                .toList()));
+    return Expanded(
+      child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Wrap(
+                alignment: WrapAlignment.start,
+                spacing: 0.0,
+                runSpacing: 0.0,
+                children: questions
+                    .map((question) => QuestionItem(questionText: question))
+                    .toList()),
+          )),
+    );
   }
 }
 
@@ -77,8 +77,12 @@ class QuestionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screen = MediaQuery.of(context).size;
+    final maxTiles = screen.width ~/ 300;
+    final tileWidth = (screen.width) / maxTiles - 10;
     return SizedBox(
-      width: 300,
+      width: tileWidth,
+      height: 200,
       child: Card(
         color: Colors.green.shade100,
         child: Padding(
