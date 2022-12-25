@@ -1,3 +1,5 @@
+// Add a random question when clicking on the FAB
+
 import 'package:flutter/material.dart';
 
 const String imgAsset = 'assets/images/hip-hop.webp';
