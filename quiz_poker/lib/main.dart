@@ -60,24 +60,20 @@ class QuestionItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-            final maxTiles = constraints.maxWidth ~/ 300;
-            final tileWidth = constraints.maxWidth / maxTiles;
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      final maxTiles = constraints.maxWidth ~/ 300;
+      final tileWidth = constraints.maxWidth / maxTiles;
 
-            return Wrap(
-              children: questions
-                  .map((question) => QuestionItem(
-                        questionText: question,
-                        tileWidth: tileWidth,
-                      ))
-                  .toList(),
-            );
-          })),
-    );
+      return ListView.builder(
+        scrollDirection:
+            constraints.maxWidth > 600 ? Axis.horizontal : Axis.vertical,
+        itemBuilder: (context, index) => QuestionItem(
+          questionText: questions[index],
+          tileWidth: tileWidth,
+        ),
+      );
+    });
   }
 }
 
