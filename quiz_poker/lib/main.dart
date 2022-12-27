@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_poker/task_f2.dart';
 
 const String imgAsset = 'assets/images/hip-hop.webp';
 const String imgSource =
     'https://st.depositphotos.com/2654883/3574/v/950/depositphotos_35743665-stock-illustration-hip-hop-latter-symbol-of.jpg';
 const String category = 'Hip Hop';
-const List<String> questions = [
+final List<String> questions = [
   'What was the first rap to hit the Billboard?',
   'Run-D.M.C. collaborated with rock musicians Steven Tyler and Joe Perry, of Aerosmith, on a rap remake of which of their band’s songs?',
   'The original "four elements" of hip-hop culture consist of rapping, deejaying, break dancing (or "B-boying"), and what else?',
@@ -40,38 +41,56 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class ScaffoldPage extends StatelessWidget {
+class ScaffoldPage extends StatefulWidget {
   const ScaffoldPage({super.key});
 
   @override
+  State<ScaffoldPage> createState() => _ScaffoldPageState();
+}
+
+class _ScaffoldPageState extends State<ScaffoldPage> {
+  @override
   Widget build(BuildContext context) {
+    int index = 0;
+    questions.shuffle();
+
+    void newQuestion() {
+      setState(() {
+        index++;
+      });
+    }
+
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Quiz Poker'),
-          centerTitle: true,
-          backgroundColor: Colors.green,
+      body: RandomQuestion(index: index),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: kMainColour,
+        onPressed: () => newQuestion(),
+        child: const Icon(
+          Icons.navigate_next_outlined,
         ),
-        body: const QuestionItemList());
+      ),
+      appBar: AppBar(
+        title: const Text('Quiz Poker'),
+        centerTitle: true,
+        backgroundColor: Colors.green,
+      ),
+    );
   }
 }
 
-class QuestionItemList extends StatelessWidget {
-  const QuestionItemList({super.key});
+class RandomQuestion extends StatelessWidget {
+  final int index;
+  const RandomQuestion({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-      final maxTiles = constraints.maxWidth ~/ 300;
-      final tileWidth = constraints.maxWidth / maxTiles;
+      final tileWidth = constraints.maxWidth;
 
-      return ListView.builder(
-        scrollDirection:
-            constraints.maxWidth > 600 ? Axis.horizontal : Axis.vertical,
-        itemBuilder: (context, index) => QuestionItem(
-          questionText: questions[index],
-          tileWidth: tileWidth,
-        ),
+      return QuestionItem(
+        questionText: questions[index],
+        tileWidth: tileWidth,
       );
     });
   }
