@@ -40,26 +40,18 @@ class QuestionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Card(
-          color: Colors.green.shade100,
-          child: ListTile(
-            leading: CircleAvatar(
-              radius: 50,
-              // backgroundImage: NetworkImage(imgNetwork),
-              // backgroundImage: AssetImage(imgAsset),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(45),
-                child: Image.asset(imgAsset),
-              ),
-            ),
-            title: const Text(category),
-            subtitle: const Text(question),
-          ),
+    return ListTile(
+      leading: CircleAvatar(
+        radius: 50,
+        // backgroundImage: NetworkImage(imgNetwork),
+        // backgroundImage: AssetImage(imgAsset),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(45),
+          child: Image.asset(imgAsset),
         ),
-      ],
+      ),
+      title: const Text(category),
+      subtitle: const Text(question),
     );
   }
 }

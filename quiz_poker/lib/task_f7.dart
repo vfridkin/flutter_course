@@ -70,17 +70,17 @@ class _ScaffoldPageState extends State<ScaffoldPage> {
         category: category,
         question: questions[questionIndices[index]],
       ),
-      appBar: AppBar(
-        title: const Text('Quiz Poker'),
-        centerTitle: true,
-        backgroundColor: Colors.green,
-      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: kMainColour,
         onPressed: () => newQuestion(),
         child: const Icon(
           Icons.navigate_next_outlined,
         ),
+      ),
+      appBar: AppBar(
+        title: const Text('Quiz Poker'),
+        centerTitle: true,
+        backgroundColor: Colors.green,
       ),
     );
   }
@@ -99,8 +99,6 @@ class QuestionItem extends StatelessWidget {
       child: ListTile(
         tileColor: kBackColour,
         contentPadding: const EdgeInsets.all(8.0),
-        title: Text(category),
-        subtitle: Text(question),
         leading: const CircleAvatar(
           radius: 50,
           backgroundImage: NetworkImage(imgNetwork),
@@ -110,6 +108,8 @@ class QuestionItem extends StatelessWidget {
           //   child: Image.asset(imgAsset),
           // ),
         ),
+        title: Text(category),
+        subtitle: Text(question),
       ),
     );
   }

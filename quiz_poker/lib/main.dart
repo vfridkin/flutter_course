@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:quiz_poker/task_f2.dart';
 
 const String imgAsset = 'assets/images/hip-hop.webp';
-const String imgSource =
+const String imgNetwork =
     'https://st.depositphotos.com/2654883/3574/v/950/depositphotos_35743665-stock-illustration-hip-hop-latter-symbol-of.jpg';
 const String category = 'Hip Hop';
-final List<String> questions = [
+const List<String> questions = [
   'What was the first rap to hit the Billboard?',
   'Run-D.M.C. collaborated with rock musicians Steven Tyler and Joe Perry, of Aerosmith, on a rap remake of which of their band’s songs?',
   'The original "four elements" of hip-hop culture consist of rapping, deejaying, break dancing (or "B-boying"), and what else?',
@@ -41,84 +41,81 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class ScaffoldPage extends StatefulWidget {
+class ScaffoldPage extends StatelessWidget {
   const ScaffoldPage({super.key});
 
   @override
-  State<ScaffoldPage> createState() => _ScaffoldPageState();
-}
-
-class _ScaffoldPageState extends State<ScaffoldPage> {
-  @override
   Widget build(BuildContext context) {
-    int index = 0;
-    questions.shuffle();
-
-    void newQuestion() {
-      setState(() {
-        index++;
-      });
-    }
+    // Create list of question indices that are shuffled to get random non repeating questions
+    final List<int> questionIndices = [
+      for (var i = 0; i < questions.length; i++) i
+    ];
+    questionIndices.shuffle();
+    QuestionItem questionItem = QuestionItem(indices: questionIndices);
 
     return Scaffold(
-      body: RandomQuestion(index: index),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: kMainColour,
-        onPressed: () => newQuestion(),
-        child: const Icon(
-          Icons.navigate_next_outlined,
-        ),
-      ),
+      body: questionItem,
       appBar: AppBar(
         title: const Text('Quiz Poker'),
         centerTitle: true,
         backgroundColor: Colors.green,
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: kMainColour,
+        onPressed: questionItem.newQuestion,
+        child: const Icon(
+          Icons.navigate_next_outlined,
+        ),
+      ),
     );
   }
 }
 
-class RandomQuestion extends StatelessWidget {
-  final int index;
-  const RandomQuestion({super.key, required this.index});
+class QuestionItem extends StatefulWidget {
+  final List<int> indices;
+  const QuestionItem({super.key, required this.indices});
 
   @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final tileWidth = constraints.maxWidth;
-
-      return QuestionItem(
-        questionText: questions[index],
-        tileWidth: tileWidth,
-      );
-    });
-  }
+  State<QuestionItem> createState() => _QuestionItemState();
 }
 
-class QuestionItem extends StatelessWidget {
-  final String questionText;
-  final double tileWidth;
+class _QuestionItemState extends State<QuestionItem> {
+  int index = 0;
+  late int questionIndex;
+  late String question;
 
-  const QuestionItem(
-      {super.key, required this.questionText, required this.tileWidth});
+  @override
+  void initState() {
+    super.initState();
+    questionIndex = widget.indices[0];
+    question = questions[questionIndex];
+  }
+
+  void newQuestion() {
+    setState(() {
+      index++;
+      questionIndex = widget.indices[index];
+      question = questions[questionIndex];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: tileWidth,
-      height: 200,
-      child: Card(
-        color: Colors.green.shade100,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListTile(
-            leading: const CircleAvatar(
-              backgroundImage: NetworkImage(imgSource),
-            ),
-            title: const Text(category),
-            subtitle: Text(questionText),
-          ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListTile(
+        tileColor: kBackColour,
+        contentPadding: const EdgeInsets.all(8.0),
+        title: const Text(category),
+        subtitle: Text(question),
+        leading: const CircleAvatar(
+          radius: 50,
+          backgroundImage: NetworkImage(imgNetwork),
+          // backgroundImage: AssetImage(imgAsset),
+          // child: ClipRRect(
+          //   borderRadius: BorderRadius.circular(45),
+          //   child: Image.asset(imgAsset),
+          // ),
         ),
       ),
     );
