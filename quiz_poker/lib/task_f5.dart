@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_poker/task_f2.dart';
 
 const String imgAsset = 'assets/images/hip-hop.webp';
 const String imgSource =
@@ -65,9 +66,13 @@ class QuestionItemList extends StatelessWidget {
       final maxTiles = constraints.maxWidth ~/ 300;
       final tileWidth = constraints.maxWidth / maxTiles;
 
-      return ListView.builder(
+      return ListView.separated(
+        itemCount: questions.length,
         scrollDirection:
             constraints.maxWidth > 600 ? Axis.horizontal : Axis.vertical,
+        separatorBuilder: (context, index) => constraints.maxWidth > 600
+            ? const SizedBox(width: 10)
+            : const SizedBox(height: 10),
         itemBuilder: (context, index) => QuestionItem(
           questionText: questions[index],
           tileWidth: tileWidth,
@@ -86,21 +91,16 @@ class QuestionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: tileWidth,
-      height: 200,
-      child: Card(
-        color: Colors.green.shade100,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListTile(
-            leading: const CircleAvatar(
-              backgroundImage: NetworkImage(imgSource),
-            ),
-            title: const Text(category),
-            subtitle: Text(questionText),
-          ),
+      decoration: BoxDecoration(
+          color: kBackColour, borderRadius: BorderRadius.circular(10)),
+      child: ListTile(
+        leading: const CircleAvatar(
+          backgroundImage: NetworkImage(imgSource),
         ),
+        title: const Text(category),
+        subtitle: Text(questionText),
       ),
     );
   }
