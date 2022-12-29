@@ -44,35 +44,23 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class ScaffoldPage extends StatefulWidget {
+class ScaffoldPage extends StatelessWidget {
   const ScaffoldPage({super.key});
 
   @override
-  State<ScaffoldPage> createState() => _ScaffoldPageState();
-}
-
-class _ScaffoldPageState extends State<ScaffoldPage> {
-  @override
   Widget build(BuildContext context) {
-    int index = 0;
-
     // Create list of question indices that are shuffled to get random non repeating questions
     final List<int> questionIndices = [
       for (var i = 0; i < questions.length; i++) i
     ];
     questionIndices.shuffle();
+    int index = 0;
 
-    void newQuestion() {
-      setState(() {
-        index++;
-      });
-    }
+    QuestionItem questionItem =
+        QuestionItem(indices: questionIndices, index: index);
 
     return Scaffold(
-      body: QuestionItem(
-        category: category,
-        question: questions[questionIndices[index]],
-      ),
+      body: questionItem,
       appBar: AppBar(
         title: const Text('Quiz Poker'),
         centerTitle: true,
@@ -80,7 +68,10 @@ class _ScaffoldPageState extends State<ScaffoldPage> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: kMainColour,
-        onPressed: () => newQuestion(),
+        onPressed: () {
+          index++;
+          questionItem.createState();
+        },
         child: const Icon(
           Icons.navigate_next_outlined,
         ),
@@ -89,11 +80,32 @@ class _ScaffoldPageState extends State<ScaffoldPage> {
   }
 }
 
-class QuestionItem extends StatelessWidget {
-  final String category;
-  final String question;
-  const QuestionItem(
-      {super.key, required this.category, required this.question});
+class QuestionItem extends StatefulWidget {
+  final List<int> indices;
+  final int index;
+  const QuestionItem({super.key, required this.indices, required this.index});
+
+  @override
+  State<QuestionItem> createState() => _QuestionItemState();
+}
+
+class _QuestionItemState extends State<QuestionItem> {
+  late int questionIndex;
+  late String question;
+
+  @override
+  void initState() {
+    super.initState();
+    questionIndex = widget.indices[0];
+    question = questions[questionIndex];
+  }
+
+  void newQuestion() {
+    setState(() {
+      questionIndex = widget.indices[widget.index];
+      question = questions[questionIndex];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +114,7 @@ class QuestionItem extends StatelessWidget {
       child: ListTile(
         tileColor: kBackColour,
         contentPadding: const EdgeInsets.all(8.0),
-        title: Text(category),
+        title: const Text(category),
         subtitle: Text(question),
         leading: const CircleAvatar(
           radius: 50,

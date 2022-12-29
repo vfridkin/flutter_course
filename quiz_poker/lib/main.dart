@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_poker/task_f2.dart';
+
+final kBackColour = Colors.green[50];
+const kMainColour = Colors.green;
+const kSnackColour = Colors.red;
 
 const String imgAsset = 'assets/images/hip-hop.webp';
 const String imgNetwork =
@@ -37,47 +40,38 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: ScaffoldPage());
+    return MaterialApp(home: ScaffoldPage());
   }
 }
 
-class ScaffoldPage extends StatefulWidget {
-  const ScaffoldPage({super.key});
+class ScaffoldPage extends StatelessWidget {
+  ScaffoldPage({super.key});
+  final GlobalKey<_QuestionItemState> _childKey = GlobalKey();
 
-  @override
-  State<ScaffoldPage> createState() => _ScaffoldPageState();
-}
+  void _nextQuestion() {
+    _childKey.currentState?.nextQuestion();
+  }
 
-class _ScaffoldPageState extends State<ScaffoldPage> {
   @override
   Widget build(BuildContext context) {
-    int index = 0;
-
     // Create list of question indices that are shuffled to get random non repeating questions
     final List<int> questionIndices = [
       for (var i = 0; i < questions.length; i++) i
     ];
     questionIndices.shuffle();
 
-    void newQuestion() {
-      setState(() {
-        index++;
-      });
-    }
+    QuestionItem questionItem = QuestionItem(indices: questionIndices);
 
     return Scaffold(
-      body: QuestionItem(
-        category: category,
-        question: questions[questionIndices[index]],
-      ),
+      body: questionItem,
       appBar: AppBar(
         title: const Text('Quiz Poker'),
         centerTitle: true,
-        backgroundColor: Colors.green,
+        backgroundColor: kMainColour,
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: kMainColour,
-        onPressed: () => newQuestion(),
+        onPressed: _nextQuestion,
         child: const Icon(
           Icons.navigate_next_outlined,
         ),
@@ -86,11 +80,34 @@ class _ScaffoldPageState extends State<ScaffoldPage> {
   }
 }
 
-class QuestionItem extends StatelessWidget {
-  final String category;
-  final String question;
-  const QuestionItem(
-      {super.key, required this.category, required this.question});
+class QuestionItem extends StatefulWidget {
+  final List<int> indices;
+
+  const QuestionItem({super.key, required this.indices});
+
+  @override
+  State<QuestionItem> createState() => _QuestionItemState();
+}
+
+class _QuestionItemState extends State<QuestionItem> {
+  int index = 0;
+  late int questionIndex;
+  late String question;
+
+  @override
+  void initState() {
+    super.initState();
+    questionIndex = widget.indices[index];
+    question = questions[questionIndex];
+  }
+
+  void nextQuestion() {
+    setState(() {
+      index++;
+      questionIndex = widget.indices[index];
+      question = questions[questionIndex];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +116,7 @@ class QuestionItem extends StatelessWidget {
       child: ListTile(
         tileColor: kBackColour,
         contentPadding: const EdgeInsets.all(8.0),
-        title: Text(category),
+        title: const Text(category),
         subtitle: Text(question),
         leading: const CircleAvatar(
           radius: 50,

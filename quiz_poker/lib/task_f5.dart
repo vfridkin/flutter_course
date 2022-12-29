@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_poker/task_f2.dart';
+
+final kBackColour = Colors.green[50];
+const kMainColour = Colors.green;
+const kSnackColour = Colors.red;
 
 const String imgAsset = 'assets/images/hip-hop.webp';
 const String imgSource =
@@ -50,7 +53,7 @@ class ScaffoldPage extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Quiz Poker'),
           centerTitle: true,
-          backgroundColor: Colors.green,
+          backgroundColor: kMainColour,
         ),
         body: const QuestionItemList());
   }
