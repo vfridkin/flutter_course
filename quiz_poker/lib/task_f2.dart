@@ -1,3 +1,8 @@
+// Add an item to display a question
+// Question
+// • Has a category
+// • Has a question text
+
 import 'package:flutter/material.dart';
 
 final kBackColour = Colors.green[50];

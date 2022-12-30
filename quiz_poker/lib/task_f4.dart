@@ -1,3 +1,6 @@
+// Add 10 more questions
+// • Add more questions to your view
+
 import 'package:flutter/material.dart';
 
 const String imgSource =

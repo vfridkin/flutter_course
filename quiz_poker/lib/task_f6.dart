@@ -1,3 +1,6 @@
+// Add a question element
+// • If you click on your FAB, add a random question to your View
+
 import 'package:flutter/material.dart';
 
 final kBackColour = Colors.green[50];

@@ -1,3 +1,7 @@
+// Support different Layouts
+// • Display your questions horizontal if you are on a large screen
+// • Display your questions if you are on a small screen
+
 import 'package:flutter/material.dart';
 
 final kBackColour = Colors.green[50];

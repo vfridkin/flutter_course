@@ -1,3 +1,4 @@
+// FAB shows a toast/snackbar
 import 'package:flutter/material.dart';
 
 void main() {

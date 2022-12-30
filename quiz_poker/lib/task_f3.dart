@@ -1,3 +1,7 @@
+// Add a picture to your question
+// • Display a image for a question
+// • The image should be based on the category
+
 import 'package:flutter/material.dart';
 
 const String imgAsset = 'assets/images/hip-hop.webp';
