@@ -30,6 +30,10 @@ const List<String> questions = [
   'Chuck D, the leader of the rap group Public Enemy, once called rap “the black …”',
   'The famous rapper Karim Kharbouch, often known as French Montana was born in which country?',
 ];
+final GlobalKey<_QuestionItemState> _childKey = GlobalKey();
+void _nextQuestion() {
+  _childKey.currentState?.nextQuestion();
+}
 
 void main() {
   runApp(const MyApp());
@@ -40,17 +44,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: ScaffoldPage());
+    return const MaterialApp(home: ScaffoldPage());
   }
 }
 
 class ScaffoldPage extends StatelessWidget {
-  ScaffoldPage({super.key});
-  final GlobalKey<_QuestionItemState> _childKey = GlobalKey();
-
-  void _nextQuestion() {
-    _childKey.currentState?.nextQuestion();
-  }
+  const ScaffoldPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +59,10 @@ class ScaffoldPage extends StatelessWidget {
     ];
     questionIndices.shuffle();
 
-    QuestionItem questionItem = QuestionItem(indices: questionIndices);
+    QuestionItem questionItem = QuestionItem(
+      key: _childKey,
+      indices: questionIndices,
+    );
 
     return Scaffold(
       body: questionItem,
@@ -69,10 +71,10 @@ class ScaffoldPage extends StatelessWidget {
         centerTitle: true,
         backgroundColor: kMainColour,
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: const FloatingActionButton(
         backgroundColor: kMainColour,
         onPressed: _nextQuestion,
-        child: const Icon(
+        child: Icon(
           Icons.navigate_next_outlined,
         ),
       ),
@@ -82,7 +84,6 @@ class ScaffoldPage extends StatelessWidget {
 
 class QuestionItem extends StatefulWidget {
   final List<int> indices;
-
   const QuestionItem({super.key, required this.indices});
 
   @override

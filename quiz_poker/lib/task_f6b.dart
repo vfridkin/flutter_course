@@ -1,6 +1,3 @@
-// Add a question element
-// • If you click on your FAB, add a random question to your View
-
 import 'package:flutter/material.dart';
 
 final kBackColour = Colors.green[50];
@@ -33,6 +30,10 @@ const List<String> questions = [
   'Chuck D, the leader of the rap group Public Enemy, once called rap “the black …”',
   'The famous rapper Karim Kharbouch, often known as French Montana was born in which country?',
 ];
+final GlobalKey<_QuestionItemState> _childKey = GlobalKey();
+void nextQuestion() {
+  _childKey.currentState?.nextQuestion();
+}
 
 void main() {
   runApp(const MyApp());
@@ -57,10 +58,11 @@ class ScaffoldPage extends StatelessWidget {
       for (var i = 0; i < questions.length; i++) i
     ];
     questionIndices.shuffle();
-    int index = 0;
 
-    QuestionItem questionItem =
-        QuestionItem(indices: questionIndices, index: index);
+    QuestionItem questionItem = QuestionItem(
+      key: _childKey,
+      indices: questionIndices,
+    );
 
     return Scaffold(
       body: questionItem,
@@ -69,13 +71,10 @@ class ScaffoldPage extends StatelessWidget {
         centerTitle: true,
         backgroundColor: kMainColour,
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: const FloatingActionButton(
         backgroundColor: kMainColour,
-        onPressed: () {
-          index++;
-          questionItem.createState();
-        },
-        child: const Icon(
+        onPressed: _nextQuestion,
+        child: Icon(
           Icons.navigate_next_outlined,
         ),
       ),
@@ -85,27 +84,28 @@ class ScaffoldPage extends StatelessWidget {
 
 class QuestionItem extends StatefulWidget {
   final List<int> indices;
-  final int index;
-  const QuestionItem({super.key, required this.indices, required this.index});
+  const QuestionItem({super.key, required this.indices});
 
   @override
   State<QuestionItem> createState() => _QuestionItemState();
 }
 
 class _QuestionItemState extends State<QuestionItem> {
+  int index = 0;
   late int questionIndex;
   late String question;
 
   @override
   void initState() {
     super.initState();
-    questionIndex = widget.indices[0];
+    questionIndex = widget.indices[index];
     question = questions[questionIndex];
   }
 
-  void newQuestion() {
+  void nextQuestion() {
     setState(() {
-      questionIndex = widget.indices[widget.index];
+      index++;
+      questionIndex = widget.indices[index];
       question = questions[questionIndex];
     });
   }
