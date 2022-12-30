@@ -31,7 +31,7 @@ const List<String> questions = [
   'The famous rapper Karim Kharbouch, often known as French Montana was born in which country?',
 ];
 final GlobalKey<_QuestionItemState> _childKey = GlobalKey();
-void nextQuestion() {
+void _nextQuestion() {
   _childKey.currentState?.nextQuestion();
 }
 
