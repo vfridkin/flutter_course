@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quiz_poker/f8/data/data_service.dart';
 import 'package:quiz_poker/f8/widgets/question_item.dart';
 
-class Questio nHintList extends StatefulWidget {
+class QuestionHintList extends StatefulWidget {
   const QuestionHintList({super.key});
 
   @override
