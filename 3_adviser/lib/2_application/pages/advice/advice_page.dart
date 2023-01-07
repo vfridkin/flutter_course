@@ -1,12 +1,13 @@
-import 'package:adviser/3_application/core/services/theme_service.dart';
-import 'package:adviser/3_application/pages/advice/widgets/advice_field.dart';
-import 'package:adviser/3_application/pages/advice/widgets/custom_button.dart';
-import 'package:adviser/3_application/pages/advice/widgets/error_message.dart';
+import 'package:adviser/2_application/core/services/theme_service.dart';
+import 'package:adviser/2_application/pages/advice/cubit/adviser_cubit.dart'; // Cubit
+import 'package:adviser/2_application/pages/advice/widgets/advice_field.dart';
+import 'package:adviser/2_application/pages/advice/widgets/custom_button.dart';
+import 'package:adviser/2_application/pages/advice/widgets/error_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import 'bloc/adviser_bloc.dart';
+// import 'bloc/adviser_bloc.dart'; // Bloc
 
 class AdvicePageWrapperProvider extends StatelessWidget {
   const AdvicePageWrapperProvider({super.key});
@@ -14,7 +15,8 @@ class AdvicePageWrapperProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AdviserBloc(),
+      // create: (context) => AdviserBloc(), // Bloc
+      create: (context) => AdviserCubit(),
       child: const AdvicePage(),
     );
   }
@@ -46,7 +48,8 @@ class AdvicePage extends StatelessWidget {
           child: Column(
             children: [
               Expanded(child: Center(
-                child: BlocBuilder<AdviserBloc, AdviserState>(
+                // child: BlocBuilder<AdviserBloc, AdviserState>( // Bloc
+                child: BlocBuilder<AdviserCubit, AdviserCubitState>(
                   builder: (context, state) {
                     if (state is AdviserInitial) {
                       return Text(

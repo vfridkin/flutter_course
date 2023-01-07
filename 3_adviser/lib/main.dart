@@ -1,9 +1,9 @@
-import 'package:adviser/3_application/pages/advice/advice_page.dart';
+import 'package:adviser/2_application/pages/advice/advice_page.dart';
 import 'package:adviser/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '3_application/core/services/theme_service.dart';
+import '2_application/core/services/theme_service.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
