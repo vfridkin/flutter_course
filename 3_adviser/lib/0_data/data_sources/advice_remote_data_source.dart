@@ -11,7 +11,9 @@ abstract class AdviceRemoteDataSource {
 }
 
 class AdviceRemoteDataSourceImp implements AdviceRemoteDataSource {
-  final client = http.Client();
+  final http.Client client;
+  AdviceRemoteDataSourceImp({required this.client});
+
   @override
   Future<AdviceModel> getRandomAdviceFromApi() async {
     const url = 'https://api.flutter-community.com/api/v1/advice';

@@ -10,8 +10,9 @@ const kCacheFailureMessage = "Cache failed, please try again!";
 const kGeneralFailureMessage = "Something went wrong, please try again";
 
 class AdviserCubit extends Cubit<AdviserCubitState> {
-  AdviserCubit() : super(AdviserInitial());
-  final AdviceUseCases adviceUseCases = AdviceUseCases();
+  final AdviceUseCases adviceUseCases;
+  AdviserCubit({required this.adviceUseCases}) : super(AdviserInitial());
+
   // could use multiple use cases
 
   void adviceRequested() async {
